@@ -16,36 +16,40 @@ class BunTest {
     @ParameterizedTest(name = "Булочка с названием {0} и ценой {1}")
     @MethodSource("provideBunData")
     @DisplayName("Конструктор должен правильно устанавливать name и price")
-    void constructorShouldSetNameAndPrice(String name, float price) {
-        Bun bun = new Bun(name, price);
+    void constructorShouldSetNameAndPrice(String expectedName, float expectedPrice) {
+        Bun bun = new Bun(expectedName, expectedPrice);
 
-        assertEquals(name, bun.getName(), "Имя булочки должно совпадать с переданным в конструктор");
-        assertEquals(price, bun.getPrice(), "Цена булочки должна совпадать с переданной в конструктор");
+        assertEquals(expectedName, bun.getName(), "Имя булочки должно совпадать с переданным в конструктор");
+        assertEquals(expectedPrice, bun.getPrice(), "Цена булочки должна совпадать с переданной в конструктор");
     }
 
     @Test
     @DisplayName("Поля name и price должны быть публично доступны")
     void publicFieldsShouldBeAccessible() {
-        Bun bun = new Bun("test bun", 123.45f);
+        String expectedName = "test bun";
+        float expectedPrice = 123.45f;
+        Bun bun = new Bun(expectedName, expectedPrice);
 
-        assertEquals("test bun", bun.name, "Поле name должно быть публичным");
-        assertEquals(123.45f, bun.price, "Поле price должно быть публичным");
+        assertEquals(expectedName, bun.name, "Поле name должно быть публичным");
+        assertEquals(expectedPrice, bun.price, "Поле price должно быть публичным");
     }
 
     @Test
     @DisplayName("getName() должен возвращать правильное имя")
     void getNameShouldReturnCorrectName() {
-        Bun bun = new Bun("black bun", 100f);
+        String expectedName = "black bun";
+        Bun bun = new Bun(expectedName, 100f);
 
-        assertEquals("black bun", bun.getName());
+        assertEquals(expectedName, bun.getName());
     }
 
     @Test
     @DisplayName("getPrice() должен возвращать правильную цену")
     void getPriceShouldReturnCorrectPrice() {
-        Bun bun = new Bun("red bun", 300f);
+        float expectedPrice = 300f;
+        Bun bun = new Bun("red bun", expectedPrice);
 
-        assertEquals(300f, bun.getPrice());
+        assertEquals(expectedPrice, bun.getPrice());
     }
 
     private static Stream<Arguments> provideBunData() {

@@ -12,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -22,16 +21,16 @@ class BurgerTest {
     private Burger burger;
 
     @Mock
-    private Bun mockBun;
+    private Bun mockBlackBun;
 
     @Mock
-    private Ingredient mockIngredient1;
+    private Ingredient mockSauceIngredient;
 
     @Mock
-    private Ingredient mockIngredient2;
+    private Ingredient mockFillingIngredient;
 
     @Mock
-    private Ingredient mockIngredient3;
+    private Ingredient mockExtraIngredient;
 
     @BeforeEach
     void setUp() {
@@ -41,73 +40,73 @@ class BurgerTest {
     @Test
     @DisplayName("setBuns() должен устанавливать булочку")
     void setBunsShouldSetBun() {
-        burger.setBuns(mockBun);
+        burger.setBuns(mockBlackBun);
 
-        assertEquals(mockBun, burger.bun, "Булочка должна быть установлена");
+        assertEquals(mockBlackBun, burger.bun, "Булочка должна быть установлена");
     }
 
     @Test
     @DisplayName("addIngredient() должен добавлять ингредиент в список")
     void addIngredientShouldAddIngredient() {
-        burger.addIngredient(mockIngredient1);
+        burger.addIngredient(mockSauceIngredient);
 
         assertEquals(1, burger.ingredients.size(), "Должен быть один ингредиент");
-        assertEquals(mockIngredient1, burger.ingredients.get(0), "Добавленный ингредиент должен быть в списке");
+        assertEquals(mockSauceIngredient, burger.ingredients.get(0), "Добавленный ингредиент должен быть в списке");
     }
 
     @Test
     @DisplayName("removeIngredient() должен удалять ингредиент по индексу")
     void removeIngredientShouldRemoveIngredientAtIndex() {
-        burger.addIngredient(mockIngredient1);
-        burger.addIngredient(mockIngredient2);
+        burger.addIngredient(mockSauceIngredient);
+        burger.addIngredient(mockFillingIngredient);
 
         burger.removeIngredient(0);
 
         assertEquals(1, burger.ingredients.size(), "Должен остаться один ингредиент");
-        assertEquals(mockIngredient2, burger.ingredients.get(0), "Должен остаться второй ингредиент");
+        assertEquals(mockFillingIngredient, burger.ingredients.get(0), "Должен остаться второй ингредиент");
     }
 
     @Test
     @DisplayName("moveIngredient() должен перемещать ингредиент на новую позицию")
     void moveIngredientShouldMoveIngredientToNewIndex() {
-        burger.addIngredient(mockIngredient1);
-        burger.addIngredient(mockIngredient2);
-        burger.addIngredient(mockIngredient3);
+        burger.addIngredient(mockSauceIngredient);
+        burger.addIngredient(mockFillingIngredient);
+        burger.addIngredient(mockExtraIngredient);
 
         burger.moveIngredient(2, 0);
 
-        assertEquals(mockIngredient3, burger.ingredients.get(0), "Ингредиент с индексом 2 должен быть на позиции 0");
-        assertEquals(mockIngredient1, burger.ingredients.get(1), "Ингредиент с индексом 0 должен быть на позиции 1");
-        assertEquals(mockIngredient2, burger.ingredients.get(2), "Ингредиент с индексом 1 должен быть на позиции 2");
+        assertEquals(mockExtraIngredient, burger.ingredients.get(0), "Ингредиент с индексом 2 должен быть на позиции 0");
+        assertEquals(mockSauceIngredient, burger.ingredients.get(1), "Ингредиент с индексом 0 должен быть на позиции 1");
+        assertEquals(mockFillingIngredient, burger.ingredients.get(2), "Ингредиент с индексом 1 должен быть на позиции 2");
     }
 
     @Test
     @DisplayName("getPrice() должен корректно рассчитывать цену с моками")
     void getPriceShouldCalculateCorrectPriceWithMocks() {
-        when(mockBun.getPrice()).thenReturn(100f);
-        when(mockIngredient1.getPrice()).thenReturn(50f);
-        when(mockIngredient2.getPrice()).thenReturn(75f);
+        when(mockBlackBun.getPrice()).thenReturn(100f);
+        when(mockSauceIngredient.getPrice()).thenReturn(50f);
+        when(mockFillingIngredient.getPrice()).thenReturn(75f);
 
-        burger.setBuns(mockBun);
-        burger.addIngredient(mockIngredient1);
-        burger.addIngredient(mockIngredient2);
+        burger.setBuns(mockBlackBun);
+        burger.addIngredient(mockSauceIngredient);
+        burger.addIngredient(mockFillingIngredient);
 
-        float expectedPrice = 100f * 2 + 50f + 75f; // 325
+        float expectedPrice = 100f * 2 + 50f + 75f;
         assertEquals(expectedPrice, burger.getPrice(), 0.001, "Цена должна быть рассчитана корректно");
 
-        verify(mockBun, times(1)).getPrice();
-        verify(mockIngredient1, times(1)).getPrice();
-        verify(mockIngredient2, times(1)).getPrice();
+        verify(mockBlackBun, times(1)).getPrice();
+        verify(mockSauceIngredient, times(1)).getPrice();
+        verify(mockFillingIngredient, times(1)).getPrice();
     }
 
     @Test
     @DisplayName("getPrice() с пустым списком ингредиентов")
     void getPriceWithEmptyIngredients() {
-        when(mockBun.getPrice()).thenReturn(150f);
+        when(mockBlackBun.getPrice()).thenReturn(150f);
 
-        burger.setBuns(mockBun);
+        burger.setBuns(mockBlackBun);
 
-        float expectedPrice = 150f * 2; // 300
+        float expectedPrice = 150f * 2;
         assertEquals(expectedPrice, burger.getPrice(), 0.001, "Цена должна быть равна удвоенной цене булочки");
     }
 
@@ -115,44 +114,41 @@ class BurgerTest {
     @ValueSource(strings = {"black bun", "white bun", "red bun"})
     @DisplayName("getReceipt() должен формировать корректный чек")
     void getReceiptShouldReturnCorrectReceipt(String bunName) {
-        Bun realBun = new Bun(bunName, 100f);
-        Ingredient sauce = new Ingredient(IngredientType.SAUCE, "hot sauce", 50f);
-        Ingredient filling = new Ingredient(IngredientType.FILLING, "cutlet", 75f);
+        Bun realBlackBun = new Bun(bunName, 100f);
+        Ingredient realSauceIngredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 50f);
+        Ingredient realFillingIngredient = new Ingredient(IngredientType.FILLING, "cutlet", 75f);
 
-        burger.setBuns(realBun);
-        burger.addIngredient(sauce);
-        burger.addIngredient(filling);
+        burger.setBuns(realBlackBun);
+        burger.addIngredient(realSauceIngredient);
+        burger.addIngredient(realFillingIngredient);
 
-        String receipt = burger.getReceipt();
         float expectedPrice = 100f * 2 + 50f + 75f;
+        String expectedReceipt = String.format("(==== %s ====)%n", bunName) +
+                String.format("= %s %s =%n", "sauce", "hot sauce") +
+                String.format("= %s %s =%n", "filling", "cutlet") +
+                String.format("(==== %s ====)%n", bunName) +
+                String.format("%nPrice: %f%n", expectedPrice);
 
-        String expectedHeader = String.format("(==== %s ====)%n", bunName);
-        String expectedSauceLine = String.format("= %s %s =%n", "sauce", "hot sauce");
-        String expectedFillingLine = String.format("= %s %s =%n", "filling", "cutlet");
-        String expectedFooter = String.format("(==== %s ====)%n", bunName);
-        String expectedPriceLine = String.format("%nPrice: %f%n", expectedPrice);
+        String actualReceipt = burger.getReceipt();
 
-        assertTrue(receipt.startsWith(expectedHeader), "Чек должен начинаться с верхней булочки");
-        assertTrue(receipt.contains(expectedSauceLine), "Чек должен содержать соус");
-        assertTrue(receipt.contains(expectedFillingLine), "Чек должен содержать начинку");
-        assertTrue(receipt.contains(expectedFooter), "Чек должен содержать нижнюю булочку");
-        assertTrue(receipt.endsWith(expectedPriceLine), "Чек должен заканчиваться ценой");
+        assertEquals(expectedReceipt, actualReceipt, "Чек должен полностью совпадать с ожидаемым");
     }
 
     @Test
     @DisplayName("getReceipt() с пустым бургером")
     void getReceiptWithEmptyBurger() {
-        Bun realBun = new Bun("test bun", 100f);
-        burger.setBuns(realBun);
+        String bunName = "test bun";
+        Bun realBlackBun = new Bun(bunName, 100f);
+        burger.setBuns(realBlackBun);
 
-        String receipt = burger.getReceipt();
-        String expectedHeader = String.format("(==== %s ====)%n", "test bun");
-        String expectedFooter = String.format("(==== %s ====)%n", "test bun");
         float expectedPrice = 200f;
+        String expectedReceipt = String.format("(==== %s ====)%n", bunName) +
+                String.format("(==== %s ====)%n", bunName) +
+                String.format("%nPrice: %f%n", expectedPrice);
 
-        assertTrue(receipt.startsWith(expectedHeader));
-        assertTrue(receipt.contains(expectedFooter));
-        assertTrue(receipt.contains(String.format("%nPrice: %f%n", expectedPrice)));
+        String actualReceipt = burger.getReceipt();
+
+        assertEquals(expectedReceipt, actualReceipt, "Чек для пустого бургера должен полностью совпадать с ожидаемым");
     }
 
     @Test
@@ -162,41 +158,51 @@ class BurgerTest {
         List<Bun> buns = database.availableBuns();
         List<Ingredient> ingredients = database.availableIngredients();
 
-        burger.setBuns(buns.get(0)); // black bun
-        burger.addIngredient(ingredients.get(1)); // sour cream
-        burger.addIngredient(ingredients.get(4)); // dinosaur
+        Bun expectedBlackBun = buns.get(0);
+        Ingredient expectedSourCream = ingredients.get(1);
+        Ingredient expectedDinosaur = ingredients.get(4);
 
-        assertEquals(buns.get(0), burger.bun);
+        burger.setBuns(expectedBlackBun);
+        burger.addIngredient(expectedSourCream);
+        burger.addIngredient(expectedDinosaur);
+
+        assertEquals(expectedBlackBun, burger.bun);
         assertEquals(2, burger.ingredients.size());
-        assertEquals(ingredients.get(1), burger.ingredients.get(0));
-        assertEquals(ingredients.get(4), burger.ingredients.get(1));
+        assertEquals(expectedSourCream, burger.ingredients.get(0));
+        assertEquals(expectedDinosaur, burger.ingredients.get(1));
 
-        float expectedPrice = 100f * 2 + 200f + 200f; // 600
+        float expectedPrice = 100f * 2 + 200f + 200f;
         assertEquals(expectedPrice, burger.getPrice(), 0.001);
     }
 
     @Test
-    @DisplayName("Тест всех методов Burger с моками (исправленная версия)")
+    @DisplayName("Тест всех методов Burger с моками")
     void testAllBurgerMethodsWithMocks() {
-        // Настраиваем только те моки, которые реально используются
-        when(mockBun.getName()).thenReturn("mock bun");
-        when(mockBun.getPrice()).thenReturn(50f);
-        when(mockIngredient1.getName()).thenReturn("mock sauce");
-        when(mockIngredient1.getType()).thenReturn(IngredientType.SAUCE);
+        when(mockBlackBun.getName()).thenReturn("mock black bun");
+        when(mockBlackBun.getPrice()).thenReturn(50f);
+        when(mockSauceIngredient.getName()).thenReturn("mock chili sauce");
+        when(mockSauceIngredient.getType()).thenReturn(IngredientType.SAUCE);
 
-        burger.setBuns(mockBun);
-        burger.addIngredient(mockIngredient1);
+        burger.setBuns(mockBlackBun);
+        burger.addIngredient(mockSauceIngredient);
 
-        assertEquals(mockBun, burger.bun);
+        assertEquals(mockBlackBun, burger.bun);
         assertEquals(1, burger.ingredients.size());
 
-        String receipt = burger.getReceipt();
-        assertTrue(receipt.contains("mock bun"));
-        assertTrue(receipt.contains("mock sauce"));
+        float expectedPrice = 50f * 2;
+        assertEquals(expectedPrice, burger.getPrice(), 0.001);
 
-        verify(mockBun, atLeastOnce()).getName();
-        verify(mockIngredient1, atLeastOnce()).getType();
-        verify(mockIngredient1, atLeastOnce()).getName();
-        // Убираем verify для mockIngredient2, так как он не используется в этом тесте
+        String expectedReceipt = String.format("(==== %s ====)%n", "mock black bun") +
+                String.format("= %s %s =%n", "sauce", "mock chili sauce") +
+                String.format("(==== %s ====)%n", "mock black bun") +
+                String.format("%nPrice: %f%n", expectedPrice);
+
+        String actualReceipt = burger.getReceipt();
+
+        assertEquals(expectedReceipt, actualReceipt, "Чек должен полностью совпадать с ожидаемым");
+
+        verify(mockBlackBun, atLeastOnce()).getName();
+        verify(mockSauceIngredient, atLeastOnce()).getType();
+        verify(mockSauceIngredient, atLeastOnce()).getName();
     }
 }
