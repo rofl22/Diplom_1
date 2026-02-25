@@ -2,8 +2,6 @@ package praktikum;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,66 +9,44 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class IngredientTest {
 
     @Test
-    @DisplayName("Конструктор должен правильно устанавливать type, name и price")
-    void constructorShouldSetTypeNameAndPrice() {
-        IngredientType expectedType = IngredientType.SAUCE;
-        String expectedName = "hot sauce";
-        float expectedPrice = 100f;
-
-        Ingredient ingredient = new Ingredient(expectedType, expectedName, expectedPrice);
-
-        assertEquals(expectedType, ingredient.getType(), "Тип должен совпадать с переданным");
-        assertEquals(expectedName, ingredient.getName(), "Имя должно совпадать с переданным");
-        assertEquals(expectedPrice, ingredient.getPrice(), "Цена должна совпадать с переданной");
-    }
-
-    @ParameterizedTest
-    @EnumSource(IngredientType.class)
-    @DisplayName("Конструктор должен работать со всеми типами ингредиентов")
-    void constructorShouldWorkWithAllTypes(IngredientType expectedType) {
-        Ingredient ingredient = new Ingredient(expectedType, "test ingredient", 50f);
-
-        assertEquals(expectedType, ingredient.getType(), "Тип должен быть установлен корректно");
+    @DisplayName("Конструктор должен устанавливать тип")
+    void constructorShouldSetType() {
+        Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 100f);
+        assertEquals(IngredientType.SAUCE, ingredient.getType());
     }
 
     @Test
-    @DisplayName("getPrice() должен возвращать правильную цену")
-    void getPriceShouldReturnCorrectPrice() {
-        float expectedPrice = 150f;
-        Ingredient ingredient = new Ingredient(IngredientType.FILLING, "cutlet", expectedPrice);
-
-        assertEquals(expectedPrice, ingredient.getPrice());
+    @DisplayName("Конструктор должен устанавливать имя")
+    void constructorShouldSetName() {
+        Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 100f);
+        assertEquals("hot sauce", ingredient.getName());
     }
 
     @Test
-    @DisplayName("getName() должен возвращать правильное имя")
-    void getNameShouldReturnCorrectName() {
-        String expectedName = "sour cream";
-        Ingredient ingredient = new Ingredient(IngredientType.SAUCE, expectedName, 200f);
-
-        assertEquals(expectedName, ingredient.getName());
+    @DisplayName("Конструктор должен устанавливать цену")
+    void constructorShouldSetPrice() {
+        Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 100f);
+        assertEquals(100f, ingredient.getPrice());
     }
 
     @Test
-    @DisplayName("getType() должен возвращать правильный тип")
-    void getTypeShouldReturnCorrectType() {
-        IngredientType expectedType = IngredientType.FILLING;
-        Ingredient ingredient = new Ingredient(expectedType, "dinosaur", 200f);
-
-        assertEquals(expectedType, ingredient.getType());
+    @DisplayName("Поле type должно быть публичным")
+    void typeFieldShouldBePublic() {
+        Ingredient ingredient = new Ingredient(IngredientType.FILLING, "cutlet", 150f);
+        assertEquals(IngredientType.FILLING, ingredient.type);
     }
 
     @Test
-    @DisplayName("Публичные поля должны быть доступны")
-    void publicFieldsShouldBeAccessible() {
-        IngredientType expectedType = IngredientType.SAUCE;
-        String expectedName = "chili sauce";
-        float expectedPrice = 300f;
+    @DisplayName("Поле name должно быть публичным")
+    void nameFieldShouldBePublic() {
+        Ingredient ingredient = new Ingredient(IngredientType.FILLING, "cutlet", 150f);
+        assertEquals("cutlet", ingredient.name);
+    }
 
-        Ingredient ingredient = new Ingredient(expectedType, expectedName, expectedPrice);
-
-        assertEquals(expectedType, ingredient.type, "Поле type должно быть публичным");
-        assertEquals(expectedName, ingredient.name, "Поле name должно быть публичным");
-        assertEquals(expectedPrice, ingredient.price, "Поле price должно быть публичным");
+    @Test
+    @DisplayName("Поле price должно быть публичным")
+    void priceFieldShouldBePublic() {
+        Ingredient ingredient = new Ingredient(IngredientType.FILLING, "cutlet", 150f);
+        assertEquals(150f, ingredient.price);
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="praktikum.BurgerTest" time="0.748" tests="12" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="praktikum.BurgerTest" time="0.005" tests="6" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="RU"/>
     <property name="sun.boot.library.path" value="C:\Users\bebra\.jdks\openjdk-23.0.1-1\bin"/>
-    <property name="sun.java.command" value="C:\Users\bebra\AppData\Local\Temp\surefire12834955776256454379\surefirebooter3262217320001787903.jar C:\Users\bebra\AppData\Local\Temp\surefire12834955776256454379 2026-02-22T02-23-15_354-jvmRun1 surefire10233616881166160081tmp surefire_09598578334463370668tmp"/>
+    <property name="sun.java.command" value="C:\Users\bebra\AppData\Local\Temp\surefire17345155265604431738\surefirebooter13077330381491132676.jar C:\Users\bebra\AppData\Local\Temp\surefire17345155265604431738 2026-02-25T12-30-52_150-jvmRun1 surefire11753311470343346648tmp surefire_03275079574820983881tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\project1\diplom\target\test-classes;D:\project1\diplom\target\classes;C:\Users\bebra\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.9.2\junit-jupiter-api-5.9.2.jar;C:\Users\bebra\.m2\repository\org\opentest4j\opentest4j\1.2.0\opentest4j-1.2.0.jar;C:\Users\bebra\.m2\repository\org\junit\platform\junit-platform-commons\1.9.2\junit-platform-commons-1.9.2.jar;C:\Users\bebra\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\bebra\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.9.2\junit-jupiter-params-5.9.2.jar;C:\Users\bebra\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.9.2\junit-jupiter-engine-5.9.2.jar;C:\Users\bebra\.m2\repository\org\junit\platform\junit-platform-engine\1.9.2\junit-platform-engine-1.9.2.jar;C:\Users\bebra\.m2\repository\org\mockito\mockito-core\4.11.0\mockito-core-4.11.0.jar;C:\Users\bebra\.m2\repository\net\bytebuddy\byte-buddy\1.12.19\byte-buddy-1.12.19.jar;C:\Users\bebra\.m2\repository\net\bytebuddy\byte-buddy-agent\1.12.19\byte-buddy-agent-1.12.19.jar;C:\Users\bebra\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\bebra\.m2\repository\org\mockito\mockito-junit-jupiter\4.11.0\mockito-junit-jupiter-4.11.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\bebra\AppData\Local\Temp\surefire12834955776256454379\surefirebooter3262217320001787903.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\bebra\AppData\Local\Temp\surefire17345155265604431738\surefirebooter13077330381491132676.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23.0.1+11-39"/>
@@ -59,16 +59,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="getPriceShouldCalculateCorrectPriceWithMocks" classname="praktikum.BurgerTest" time="0.697"/>
-  <testcase name="addIngredientShouldAddIngredient" classname="praktikum.BurgerTest" time="0.001"/>
-  <testcase name="setBunsShouldSetBun" classname="praktikum.BurgerTest" time="0.001"/>
-  <testcase name="getPriceWithEmptyIngredients" classname="praktikum.BurgerTest" time="0.001"/>
-  <testcase name="testAllBurgerMethodsWithMocks" classname="praktikum.BurgerTest" time="0.015"/>
-  <testcase name="getReceiptShouldReturnCorrectReceipt{String}[1]" classname="praktikum.BurgerTest" time="0.005"/>
-  <testcase name="getReceiptShouldReturnCorrectReceipt{String}[2]" classname="praktikum.BurgerTest" time="0.002"/>
-  <testcase name="getReceiptShouldReturnCorrectReceipt{String}[3]" classname="praktikum.BurgerTest" time="0.002"/>
-  <testcase name="moveIngredientShouldMoveIngredientToNewIndex" classname="praktikum.BurgerTest" time="0.001"/>
-  <testcase name="removeIngredientShouldRemoveIngredientAtIndex" classname="praktikum.BurgerTest" time="0"/>
-  <testcase name="getReceiptWithEmptyBurger" classname="praktikum.BurgerTest" time="0.003"/>
-  <testcase name="testWithRealDatabaseObjects" classname="praktikum.BurgerTest" time="0.002"/>
+  <testcase name="addIngredientShouldAddIngredient" classname="praktikum.BurgerTest" time="0"/>
+  <testcase name="getPriceShouldCalculateCorrectly" classname="praktikum.BurgerTest" time="0"/>
+  <testcase name="setBunsShouldSetBun" classname="praktikum.BurgerTest" time="0"/>
+  <testcase name="getReceiptShouldContainBunName" classname="praktikum.BurgerTest" time="0.002"/>
+  <testcase name="moveIngredientShouldChangeOrder" classname="praktikum.BurgerTest" time="0.001"/>
+  <testcase name="removeIngredientShouldRemoveIngredient" classname="praktikum.BurgerTest" time="0.001"/>
 </testsuite>
