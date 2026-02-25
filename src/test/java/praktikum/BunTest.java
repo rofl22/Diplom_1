@@ -1,43 +1,35 @@
 package praktikum;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@DisplayName("Тесты для класса Bun")
+@DisplayName("Тесты для Bun")
 class BunTest {
 
-    @Test
-    @DisplayName("Конструктор должен устанавливать имя")
-    void constructorShouldSetName() {
-        Bun bun = new Bun("black bun", 100f);
-        assertEquals("black bun", bun.getName());
+    @ParameterizedTest
+    @CsvSource({
+            "black bun, 100",
+            "white bun, 200",
+            "red bun, 300"
+    })
+    @DisplayName("getName должен возвращать корректное имя")
+    void getNameShouldReturnCorrectName(String name, float price) {
+        Bun bun = new Bun(name, price);
+        assertEquals(name, bun.getName());
     }
 
-    @Test
-    @DisplayName("Конструктор должен устанавливать цену")
-    void constructorShouldSetPrice() {
-        Bun bun = new Bun("black bun", 100f);
-        assertEquals(100f, bun.getPrice());
-    }
-
-    @Test
-    @DisplayName("Поле name должно быть публичным")
-    void nameFieldShouldBePublic() {
-        Bun bun = new Bun("white bun", 200f);
-        assertEquals("white bun", bun.name);
-    }
-
-    @Test
-    @DisplayName("Поле price должно быть публичным")
-    void priceFieldShouldBePublic() {
-        Bun bun = new Bun("white bun", 200f);
-        assertEquals(200f, bun.price);
+    @ParameterizedTest
+    @CsvSource({
+            "black bun, 100",
+            "white bun, 200",
+            "red bun, 300"
+    })
+    @DisplayName("getPrice должен возвращать корректную цену")
+    void getPriceShouldReturnCorrectPrice(String name, float price) {
+        Bun bun = new Bun(name, price);
+        assertEquals(price, bun.getPrice());
     }
 }

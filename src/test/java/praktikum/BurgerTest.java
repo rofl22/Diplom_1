@@ -3,13 +3,26 @@ package praktikum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
-@DisplayName("Тесты для класса Burger")
+@ExtendWith(MockitoExtension.class)
+@DisplayName("Тесты для Burger")
 class BurgerTest {
 
     private Burger burger;
+
+    @Mock
+    private Bun bun;
+
+    @Mock
+    private Ingredient ingredient;
 
     @BeforeEach
     void setUp() {
@@ -19,7 +32,6 @@ class BurgerTest {
     @Test
     @DisplayName("setBuns должен устанавливать булочку")
     void setBunsShouldSetBun() {
-        Bun bun = new Bun("black bun", 100f);
         burger.setBuns(bun);
         assertEquals(bun, burger.bun);
     }
@@ -27,7 +39,6 @@ class BurgerTest {
     @Test
     @DisplayName("addIngredient должен добавлять ингредиент")
     void addIngredientShouldAddIngredient() {
-        Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 50f);
         burger.addIngredient(ingredient);
         assertEquals(1, burger.ingredients.size());
     }
@@ -35,18 +46,17 @@ class BurgerTest {
     @Test
     @DisplayName("removeIngredient должен удалять ингредиент")
     void removeIngredientShouldRemoveIngredient() {
-        Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 50f);
         burger.addIngredient(ingredient);
         burger.removeIngredient(0);
         assertEquals(0, burger.ingredients.size());
     }
 
     @Test
-    @DisplayName("moveIngredient должен менять порядок ингредиентов")
+    @DisplayName("moveIngredient должен менять порядок")
     void moveIngredientShouldChangeOrder() {
-        Ingredient first = new Ingredient(IngredientType.SAUCE, "sauce", 10f);
-        Ingredient second = new Ingredient(IngredientType.FILLING, "cutlet", 20f);
-        burger.addIngredient(first);
+        Ingredient second = mock(Ingredient.class);
+
+        burger.addIngredient(ingredient);
         burger.addIngredient(second);
 
         burger.moveIngredient(1, 0);
@@ -55,10 +65,21 @@ class BurgerTest {
     }
 
     @Test
-    @DisplayName("getPrice должен считать цену корректно")
-    void getPriceShouldCalculateCorrectly() {
-        Bun bun = new Bun("black bun", 100f);
-        Ingredient ingredient = new Ingredient(IngredientType.SAUCE, "hot sauce", 50f);
+    @DisplayName("getPrice должен вызывать getPrice у булочки")
+    void getPriceShouldCallBunGetPrice() {
+        when(bun.getPrice()).thenReturn(100f);
+
+        burger.setBuns(bun);
+        burger.getPrice();
+
+        verify(bun, times(1)).getPrice();
+    }
+
+    @Test
+    @DisplayName("getPrice должен учитывать цену ингредиента")
+    void getPriceShouldIncludeIngredientPrice() {
+        when(bun.getPrice()).thenReturn(100f);
+        when(ingredient.getPrice()).thenReturn(50f);
 
         burger.setBuns(bun);
         burger.addIngredient(ingredient);
@@ -66,12 +87,17 @@ class BurgerTest {
         assertEquals(250f, burger.getPrice());
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"black bun", "white bun"})
     @DisplayName("getReceipt должен содержать имя булочки")
-    void getReceiptShouldContainBunName() {
-        Bun bun = new Bun("black bun", 100f);
+    void getReceiptShouldContainBunName(String name) {
+        when(bun.getName()).thenReturn(name);
+        when(bun.getPrice()).thenReturn(100f);
+
         burger.setBuns(bun);
 
-        assertTrue(burger.getReceipt().contains("black bun"));
+        String receipt = burger.getReceipt();
+
+        assertEquals(true, receipt.contains(name));
     }
 }
